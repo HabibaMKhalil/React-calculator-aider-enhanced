@@ -1,0 +1,20 @@
+AIDER SESSION LOG (RECREATED)
+-----------------------------
+
+Feature 1: History Log
+- Prompted Aider to create a history feature that stores expressions and results
+- Added new state to App.js
+- Created History.js component to display list of past calculations
+- Added clear history functionality
+
+Feature 2: Keyboard Support
+- Prompted Aider to enable input via keyboard
+- Handled numeric keys, operators, Enter (=), and Backspace
+- Mapped to existing click handlers
+
+Feature 3: Dark Mode Toggle
+- Prompted Aider to add light/dark theme toggle
+- Added toggle button in App.js
+- Updated CSS and theme logic in index.css and components
+
+All features committed using Aider after each step.
