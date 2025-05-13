@@ -1,20 +1,56 @@
-AIDER SESSION LOG
+AIDER SESSION LOG  
 -----------------------------
 
-Feature 1: History Log
-- Prompted Aider to create a history feature that stores expressions and results
-- Added new state to App.js
-- Created History.js component to display list of past calculations
-- Added clear history functionality
+Project: React Calculator Enhancement  
+Student: Habiba Khalil  
+Date: May 2025
 
-Feature 2: Keyboard Support
-- Prompted Aider to enable input via keyboard
-- Handled numeric keys, operators, Enter (=), and Backspace
-- Mapped to existing click handlers
+---
 
-Feature 3: Dark Mode Toggle
-- Prompted Aider to add light/dark theme toggle
-- Added toggle button in App.js
-- Updated CSS and theme logic in index.css and components
+🔁 Feature 1: History Log
 
-All features committed using Aider after each step.
+/ask Add a history log feature to the calculator. Store expressions and results, display them in a History component below the calculator, and add a clear button.
+
+Aider:
+→ Added a new state in `App.js` to hold history data.  
+→ Created a new `History.js` component to render expression/result pairs.  
+→ Placed the history list below the main calculator UI.  
+→ Implemented a "Clear History" button to reset the list.
+
+/commit Add history log feature
+
+---
+
+⌨️ Feature 2: Keyboard Support
+
+/ask Add keyboard support so the user can press number keys, operators (+ - × ÷), Enter (=), and Backspace (C) to trigger calculator buttons.
+
+Aider:
+→ Set up a `useEffect` in `App.js` to listen for keydown events.  
+→ Mapped keyboard input to calculator button logic.  
+→ Ensured compatibility for Enter key (=) and Backspace key (C).  
+→ Handled Shift-key symbols for *, / etc.
+
+/commit Add keyboard support
+
+---
+
+🌙 Feature 3: Dark Mode Toggle
+
+/ask Add a dark mode toggle button. It should switch themes using a state variable and update component styles or CSS classes accordingly.
+
+Aider:
+→ Introduced a `useState` variable in `App.js` to track dark mode.  
+→ Created a toggle button UI and positioned it at the top right.  
+→ Updated CSS classes based on the theme mode across all components.  
+→ Ensured dark/light modes are visually distinct and readable.
+
+/commit Add dark mode toggle
+
+---
+
+Commands Used:
+- /ask
+- /commit
+
+Each feature was developed iteratively and committed after validation. Testing and styling were confirmed via the browser and minimal CSS changes.
