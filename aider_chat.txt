@@ -6,6 +6,250 @@ Student: Habiba Khalil
 Date: May 2025
 
 ---
+> /ask Add a history log feature to the calculator. Store expressions and results, display them in a History component below the calculator, and add a clear button.  
+
+To add a history log feature to the calculator, you can follow these steps:
+
+ 1 In the App.js file, update the state object to include a history array:
+
+
+state = {
+  total: null,
+  next: null,
+  operation: null,
+  history: [],
+  theme: "light",
+};
+
+
+ 2 In the calculate.js file, update the function to push the current state to the history array when the "AC" button is pressed:
+
+
+export default function calculate(obj, buttonName) {
+  if (buttonName === "AC") {
+    return {
+      total: null,
+      next: null,
+      operation: null,
+      history: [...obj.history, { expression: obj.next || obj.total || "0", result: obj.total || null }],
+    };
+  }
+  // ...
+}
+
+
+ 3 Create a new History.js component to display the history:
+
+
+import React from 'react';
+
+export default function History({ history, clearHistory }) {
+  return (
+    <div className="component-history">
+      <h3>History:</h3>
+      <ul>
+        {history.map((item, index) => (
+          <li key={index}>
+            {item.expression} = {item.result}
+          </li>
+        ))}
+      </ul>
+      <button onClick={clearHistory}>Clear History</button>
+    </div>
+  );
+}
+
+
+ 4 In the App.js file, add the History component below the Display and ButtonPanel components:
+
+
+return (
+  <div className={themeClass}>
+    <History history={this.state.history} clearHistory={this.clearHistory} />
+    <Display value={this.state.next || this.state.total || "0"} />
+    <ButtonPanel clickHandler={this.handleClick} theme={this.state.theme} />
+    <button onClick={this.toggleTheme}>Toggle Theme</button>
+  </div>
+);
+
+
+ 5 Add a clearHistory method to the App component to clear the history when the "Clear History" button is clicked:
+
+
+clearHistory = () => {
+  this.setState({ history: [] });
+};
+
+
+ 6 Update the handleClick method in the App.js file to call the calculate function and update the state with the new history:
+
+
+handleClick = buttonName => {
+  const newState = calculate(this.state, buttonName);
+  this.setState(prevState => ({
+    ...prevState,
+    history: [...prevState.history, { expression: prevState.next || prevState.total || "0", result: prevState.total || null }],
+    next: newState.next,
+    total: newState.total,
+    operation: newState.operation,
+  }));
+};
+
+
+With these changes, the calculator will now store expressions and results in the history array and display them in the History component. The "Clear History" button  
+will clear the history when clicked.
+
+---
+
+> /ask Add keyboard support so the user can press number keys, operators (+ -  ), Enter (=), and Backspace (C) to trigger calculator buttons.
+
+To add keyboard support for the calculator, you can follow these steps:
+
+ 1 In the App.js file, update the handleClick method to accept an event object and extract the key pressed from it:
+
+
+handleClick = event => {
+  const buttonName = event.target.textContent || event.key;
+  // ...
+};
+
+
+ 2 Update the handleClick method to check if the key pressed is a number, operator, or special key (Enter or Backspace) and call the calculate function accordingly:  
+
+
+handleClick = event => {
+  const buttonName = event.target.textContent || event.key;
+
+  if (buttonName >= "0" && buttonName <= "9") {
+    this.setState(calculate(this.state, buttonName));
+  } else if (buttonName === "+" || buttonName === "-" || buttonName === "*" || buttonName === "/") {
+    this.setState(state => ({
+      operation: buttonName,
+      next: state.next || state.total || "0",
+    }));
+  } else if (buttonName === "Enter") {
+    this.setState(state => {
+      const newState = calculate(state, state.next);
+      return {
+        ...newState,
+        history: [...state.history, { expression: state.next + " =", result: newState.total }],
+      };
+    });
+  } else if (buttonName === "Backspace") {
+    this.setState(state => {
+      const next = state.next.slice(0, -1);
+      return {
+        next,
+      };
+    });
+  }
+};
+
+
+ 3 In the App.js file, add event listeners for the keydown event on the document object:
+
+
+componentDidMount() {
+  document.addEventListener("keydown", this.handleKeyDown);
+}
+
+componentWillUnmount() {
+  document.removeEventListener("keydown", this.handleKeyDown);
+}
+
+handleKeyDown = event => {
+  this.handleClick(event);
+};
+
+
+With these changes, the calculator will now respond to number keys, operators, Enter, and Backspace when pressed on the keyboard. 🙂
+
+
+Tokens: 4.0k sent, 420 received.
+
+---
+
+> /ask Add a dark mode toggle button. It should switch themes using a state variable and update component styles or CSS classes accordingly.
+
+To add a dark mode toggle button, you can follow these steps:
+
+ 1 In the App.js file, update the state object to include a theme variable:
+
+
+state = {
+  total: null,
+  next: null,
+  operation: null,
+  history: [],
+  theme: "light",
+};
+
+
+ 2 In the src\index.css file, create two classes for the light and dark themes:
+
+
+.light-theme {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.dark-theme {
+  background-color: #333;
+  color: #fff;
+}
+
+
+ 3 In the App.js file, update the render method to conditionally apply the light or dark theme classes based on the theme state:
+
+
+render() {
+  const themeClass = this.state.theme === "light" ? "light-theme" : "dark-theme";
+
+  return (
+    <div className={themeClass}>
+      {/* ... */}
+    </div>
+  );
+}
+
+
+ 4 Add a toggleTheme method to the App component to switch the theme when the toggle button is clicked:
+
+
+toggleTheme = () => {
+  this.setState(prevState => ({
+    theme: prevState.theme === "light" ? "dark" : "light",
+  }));
+};
+
+
+ 5 In the App.js file, add a new button for the dark mode toggle:
+
+
+return (
+  <div className={themeClass}>
+    <History history={this.state.history} clearHistory={this.clearHistory} />
+    <Display value={this.state.next || this.state.total || "0"} />
+    <ButtonPanel clickHandler={this.handleClick} theme={this.state.theme} />
+    <button onClick={this.toggleTheme}>Toggle Theme</button>
+  </div>
+);
+
+
+With these changes, the calculator will now have a dark mode toggle button that switches between light and dark themes. The component styles or CSS classes will be   
+updated accordingly. 🙂
+
+
+---
+
+# AIDER SESSION LOG  ( recreated )
+-----------------------------
+
+Project: React Calculator Enhancement  
+Student: Habiba Khalil  
+Date: May 2025
+
+---
 
 🔁 Feature 1: History Log
 
@@ -54,3 +298,4 @@ Commands Used:
 - /commit
 
 Each feature was developed iteratively and committed after validation. Testing and styling were confirmed via the browser and minimal CSS changes.
+
