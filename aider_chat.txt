@@ -1,4 +1,4 @@
-AIDER SESSION LOG (RECREATED)
+AIDER SESSION LOG
 -----------------------------
 
 Feature 1: History Log
